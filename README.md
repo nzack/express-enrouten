@@ -118,6 +118,31 @@ app.use(enrouten({
 }));
 ```
 
+Additionally, there is a `routerUserConfig` property that will set a `userConfig` property
+on each `Router` object created and passed into each route.  The purpose is to allow
+the caller to pass configuration information into each route for use during intialization.
+
+```javascript
+app.use(enrouten({
+    directory: 'controllers',
+    routerOptions: {
+        routerUserConfig: { 
+            configValue: 'foo'
+        }
+    }
+}));
+
+// controllers/controller.js
+module.exports = function (router) {
+    var config = router.userConfig;
+    
+    router.get('/', function (req, res) {
+        doSomething(config.configValue);
+        // ...
+    });
+};
+```
+
 
 ### Named Routes
 For `index` and `directory` configurations there is also support for named routes.
